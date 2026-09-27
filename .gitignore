@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.venv/
+venv/
+ENV/
+env/
+
+# MLflow tracking local files
+mlruns/
+mlartifacts/
+.trash/
+
+# ASTCV Data - Raw & Heavy binaries (Tracked via DVC or Manifests)
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/*/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/sessions/*
+!data/sessions/.gitkeep
+!data/sessions/**/manifest.json
+
+# Test caches & Logs
+.pytest_cache/
+*.log
+.coverage
+htmlcov/
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini

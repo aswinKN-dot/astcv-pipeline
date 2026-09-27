@@ -1,0 +1,448 @@
+{
+  "$defs": {
+    "DeviceMetadata": {
+      "description": "Hardware and environment profile for cross-device calibration validation.",
+      "properties": {
+        "device_id": {
+          "description": "Hardware identifier / test device tag",
+          "title": "Device Id",
+          "type": "string"
+        },
+        "device_type": {
+          "enum": [
+            "laptop",
+            "smartphone",
+            "tablet",
+            "external_webcam",
+            "virtual_cam_test"
+          ],
+          "title": "Device Type",
+          "type": "string"
+        },
+        "model_name": {
+          "description": "e.g. MacBook Pro M2, Dell XPS 15, Pixel 7, iPhone 14",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "os_version": {
+          "description": "Operating System & version",
+          "title": "Os Version",
+          "type": "string"
+        },
+        "browser": {
+          "description": "Browser name & version (Chrome, Safari, Firefox)",
+          "title": "Browser",
+          "type": "string"
+        },
+        "display_refresh_rate_hz": {
+          "description": "Display refresh rate (e.g., 60Hz, 120Hz)",
+          "exclusiveMinimum": 0,
+          "title": "Display Refresh Rate Hz",
+          "type": "number"
+        },
+        "camera_sensor_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Camera Sensor Name"
+        },
+        "native_camera_resolution": {
+          "description": "Native (width, height)",
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Native Camera Resolution",
+          "type": "array"
+        }
+      },
+      "required": [
+        "device_id",
+        "device_type",
+        "model_name",
+        "os_version",
+        "browser",
+        "display_refresh_rate_hz",
+        "native_camera_resolution"
+      ],
+      "title": "DeviceMetadata",
+      "type": "object"
+    },
+    "FrameCaptureTelemetry": {
+      "description": "Metadata recorded by M2's WebRTC capture pipeline for each received camera frame.",
+      "properties": {
+        "frame_index": {
+          "description": "Sequential captured frame index",
+          "minimum": 0,
+          "title": "Frame Index",
+          "type": "integer"
+        },
+        "timestamp_captured_ms": {
+          "description": "Camera sensor / video frame timestamp (performance.now)",
+          "title": "Timestamp Captured Ms",
+          "type": "number"
+        },
+        "exposure_time_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Camera exposure duration if exposed by browser API",
+          "title": "Exposure Time Ms"
+        },
+        "reported_fps": {
+          "description": "Instantaneous camera capture FPS",
+          "exclusiveMinimum": 0,
+          "title": "Reported Fps",
+          "type": "number"
+        },
+        "frame_width": {
+          "exclusiveMinimum": 0,
+          "title": "Frame Width",
+          "type": "integer"
+        },
+        "frame_height": {
+          "exclusiveMinimum": 0,
+          "title": "Frame Height",
+          "type": "integer"
+        },
+        "frame_checksum_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "SHA256 of raw frame bytes",
+          "title": "Frame Checksum Sha256"
+        }
+      },
+      "required": [
+        "frame_index",
+        "timestamp_captured_ms",
+        "reported_fps",
+        "frame_width",
+        "frame_height"
+      ],
+      "title": "FrameCaptureTelemetry",
+      "type": "object"
+    },
+    "JitterStatistics": {
+      "description": "Telemetry metrics calculated for Week 3 cross-device jitter deliverable.",
+      "properties": {
+        "total_frames_emitted": {
+          "minimum": 0,
+          "title": "Total Frames Emitted",
+          "type": "integer"
+        },
+        "total_frames_captured": {
+          "minimum": 0,
+          "title": "Total Frames Captured",
+          "type": "integer"
+        },
+        "dropped_frames": {
+          "minimum": 0,
+          "title": "Dropped Frames",
+          "type": "integer"
+        },
+        "frame_drop_rate_pct": {
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Frame Drop Rate Pct",
+          "type": "number"
+        },
+        "mean_latency_delta_ms": {
+          "title": "Mean Latency Delta Ms",
+          "type": "number"
+        },
+        "std_latency_delta_ms": {
+          "title": "Std Latency Delta Ms",
+          "type": "number"
+        },
+        "p95_latency_delta_ms": {
+          "title": "P95 Latency Delta Ms",
+          "type": "number"
+        },
+        "p99_latency_delta_ms": {
+          "title": "P99 Latency Delta Ms",
+          "type": "number"
+        },
+        "max_latency_delta_ms": {
+          "title": "Max Latency Delta Ms",
+          "type": "number"
+        },
+        "meets_jitter_tolerance": {
+          "description": "True if jitter remains under threshold (e.g., < 50ms)",
+          "title": "Meets Jitter Tolerance",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "total_frames_emitted",
+        "total_frames_captured",
+        "dropped_frames",
+        "frame_drop_rate_pct",
+        "mean_latency_delta_ms",
+        "std_latency_delta_ms",
+        "p95_latency_delta_ms",
+        "p99_latency_delta_ms",
+        "max_latency_delta_ms",
+        "meets_jitter_tolerance"
+      ],
+      "title": "JitterStatistics",
+      "type": "object"
+    },
+    "MatchedSyncPair": {
+      "description": "M2's matched emitter pattern and corresponding camera frame capture.",
+      "properties": {
+        "pair_id": {
+          "description": "Sync match identifier",
+          "title": "Pair Id",
+          "type": "string"
+        },
+        "pattern": {
+          "$ref": "#/$defs/ScreenChallengePattern"
+        },
+        "frame": {
+          "$ref": "#/$defs/FrameCaptureTelemetry"
+        },
+        "display_to_capture_delta_ms": {
+          "description": "Delta = timestamp_captured - timestamp_emitted",
+          "title": "Display To Capture Delta Ms",
+          "type": "number"
+        },
+        "sync_status": {
+          "default": "SYNCHRONIZED",
+          "enum": [
+            "SYNCHRONIZED",
+            "JITTER_WARNING",
+            "DESYNC_DROPPED"
+          ],
+          "title": "Sync Status",
+          "type": "string"
+        },
+        "estimated_ambient_lux": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Ambient Lux"
+        }
+      },
+      "required": [
+        "pair_id",
+        "pattern",
+        "frame",
+        "display_to_capture_delta_ms"
+      ],
+      "title": "MatchedSyncPair",
+      "type": "object"
+    },
+    "ScreenChallengePattern": {
+      "description": "Data emitted by M1's challenge engine and rendered on screen by M2's UI.",
+      "properties": {
+        "pattern_id": {
+          "description": "Unique UUID for this specific challenge block",
+          "title": "Pattern Id",
+          "type": "string"
+        },
+        "sequence_index": {
+          "description": "Sequential index within the session",
+          "minimum": 0,
+          "title": "Sequence Index",
+          "type": "integer"
+        },
+        "timestamp_emitted_ms": {
+          "description": "High-resolution display timestamp (performance.now)",
+          "title": "Timestamp Emitted Ms",
+          "type": "number"
+        },
+        "color_rgb": {
+          "description": "RGB color tuple rendered on screen [0-255]",
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Color Rgb",
+          "type": "array"
+        },
+        "frequency_hz": {
+          "description": "Modulation frequency in Hz (photosafety bounded)",
+          "maximum": 30.0,
+          "minimum": 0.5,
+          "title": "Frequency Hz",
+          "type": "number"
+        },
+        "spatial_zone": {
+          "default": "FULL_SCREEN",
+          "description": "Targeted facial or screen spatial zone",
+          "title": "Spatial Zone",
+          "type": "string"
+        },
+        "nonce_token": {
+          "description": "Cryptographic salt/nonce preventing pattern replay/prediction",
+          "title": "Nonce Token",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pattern_id",
+        "sequence_index",
+        "timestamp_emitted_ms",
+        "color_rgb",
+        "frequency_hz",
+        "nonce_token"
+      ],
+      "title": "ScreenChallengePattern",
+      "type": "object"
+    }
+  },
+  "description": "Master session manifest stored by M3 for each live captured ASTCV session.\nStored at: data/sessions/{session_id}/manifest.json",
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "session_id": {
+      "description": "UUID or unique session identifier",
+      "title": "Session Id",
+      "type": "string"
+    },
+    "created_at_utc": {
+      "description": "ISO 8601 UTC timestamp",
+      "title": "Created At Utc",
+      "type": "string"
+    },
+    "device": {
+      "$ref": "#/$defs/DeviceMetadata"
+    },
+    "participant_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Anonymized volunteer ID for consent tracking",
+      "title": "Participant Id"
+    },
+    "consent_recorded": {
+      "default": false,
+      "description": "Compliance check: formal consent documented",
+      "title": "Consent Recorded",
+      "type": "boolean"
+    },
+    "session_type": {
+      "enum": [
+        "genuine_human",
+        "printed_photo_attack",
+        "replay_attack",
+        "virtual_cam_injection",
+        "jitter_test_bench"
+      ],
+      "title": "Session Type",
+      "type": "string"
+    },
+    "video_relative_path": {
+      "description": "Path to recorded session video (MP4/WebM)",
+      "title": "Video Relative Path",
+      "type": "string"
+    },
+    "matched_pairs": {
+      "items": {
+        "$ref": "#/$defs/MatchedSyncPair"
+      },
+      "title": "Matched Pairs",
+      "type": "array"
+    },
+    "jitter_stats": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/JitterStatistics"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "calibration_matrix_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Calibration Matrix Path"
+    },
+    "physicality_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Physicality Score"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    }
+  },
+  "required": [
+    "session_id",
+    "created_at_utc",
+    "device",
+    "session_type",
+    "video_relative_path"
+  ],
+  "title": "SessionManifest",
+  "type": "object"
+}

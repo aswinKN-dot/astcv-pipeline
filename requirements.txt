@@ -1,0 +1,25 @@
+# ASTCV Data Pipeline Dependencies
+# Python 3.10 - 3.13 compatible
+
+# Core Computer Vision & Image Processing
+opencv-python>=4.8.0
+numpy>=1.24.0
+Pillow>=10.0.0
+mediapipe>=0.10.9
+
+# Data Contract & Validation
+pydantic>=2.5.0
+jsonschema>=4.20.0
+pyyaml>=6.0.1
+
+# Experiment Tracking & Versioning
+mlflow>=2.10.0
+dvc>=3.40.0
+
+# Utility & Progress
+tqdm>=4.66.0
+requests>=2.31.0
+
+# Testing & Quality
+pytest>=8.0.0
+pytest-cov>=4.1.0

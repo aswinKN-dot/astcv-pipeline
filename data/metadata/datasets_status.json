@@ -1,0 +1,56 @@
+{
+  "faceforensics": {
+    "dataset_id": "ffpp",
+    "display_name": "FaceForensics++",
+    "local_dir": "./data/raw/faceforensics",
+    "status": "READY_RAW",
+    "total_videos": 8,
+    "total_frames": 0,
+    "notes": "Initial setup. Awaiting academic access approval."
+  },
+  "celeb_df_v2": {
+    "dataset_id": "celeb_df_v2",
+    "display_name": "Celeb-DF (v2)",
+    "local_dir": "./data/raw/celeb_df_v2",
+    "status": "READY_RAW",
+    "total_videos": 3,
+    "total_frames": 0,
+    "notes": "Initial setup. Awaiting academic access approval."
+  },
+  "dfdc": {
+    "dataset_id": "dfdc",
+    "display_name": "Deepfake Detection Challenge (DFDC)",
+    "local_dir": "./data/raw/dfdc",
+    "status": "READY_RAW",
+    "total_videos": 2,
+    "total_frames": 0,
+    "notes": "Initial setup. Awaiting academic access approval."
+  },
+  "uadfv": {
+    "dataset_id": "uadfv",
+    "display_name": "UADFV",
+    "local_dir": "./data/raw/uadfv",
+    "status": "READY_RAW",
+    "total_videos": 2,
+    "total_frames": 0,
+    "notes": "Initial setup. Awaiting academic access approval."
+  },
+  "ffhq": {
+    "dataset_id": "ffhq",
+    "display_name": "Flickr-Faces-HQ (FFHQ)",
+    "local_dir": "./data/raw/ffhq",
+    "status": "READY_RAW",
+    "total_videos": 0,
+    "total_frames": 5,
+    "notes": "Initial setup. Awaiting academic access approval."
+  },
+  "voxceleb2": {
+    "dataset_id": "voxceleb2",
+    "display_name": "VoxCeleb2",
+    "local_dir": "./data/raw/voxceleb2",
+    "status": "READY_RAW",
+    "total_videos": 1,
+    "total_frames": 0,
+    "notes": "Initial setup. Awaiting academic access approval."
+  }
+}

@@ -1,0 +1,63 @@
+project:
+  name: "ASTCV"
+  subsystem: "M3-Data-Engine"
+  version: "1.0.0"
+  description: "ASTCV Data Storage, Versioning, Dataset Ingestion & Experiment Tracking Pipeline"
+
+paths:
+  data_root: "./data"
+  raw_datasets: "./data/raw"
+  captured_sessions: "./data/sessions"
+  processed_output: "./data/processed"
+  metadata_dir: "./data/metadata"
+
+standardization:
+  image_size: [256, 256]
+  color_space: "RGB"
+  target_fps: 30
+  face_crop_margin: 1.3
+  image_format: "png"
+  video_codec: "mp4v"
+
+capture_session:
+  max_acceptable_jitter_ms: 50.0
+  timestamp_sync_clock: "performance.now"
+  min_session_duration_sec: 3.0
+  expected_challenge_hz_range: [2.0, 15.0]
+
+mlflow:
+  tracking_uri: "sqlite:///mlflow.db"
+  artifact_location: "./mlartifacts"
+  default_experiment: "ASTCV-Phase1-Pipeline"
+  experiments:
+    dataset_ingestion: "ASTCV-Dataset-Ingestion"
+    cross_device_jitter: "ASTCV-Cross-Device-Jitter"
+    benchmark_evaluation: "ASTCV-Physicality-Evaluation"
+
+datasets:
+  faceforensics:
+    id: "ffpp"
+    name: "FaceForensics++"
+    compression: "c23"
+    subsets: ["original", "Deepfakes", "Face2Face", "FaceSwap", "NeuralTextures"]
+    path: "./data/raw/faceforensics"
+  celeb_df_v2:
+    id: "celeb_df_v2"
+    name: "Celeb-DF (v2)"
+    path: "./data/raw/celeb_df_v2"
+  dfdc:
+    id: "dfdc"
+    name: "Deepfake Detection Challenge (DFDC)"
+    path: "./data/raw/dfdc"
+  uadfv:
+    id: "uadfv"
+    name: "UADFV"
+    path: "./data/raw/uadfv"
+  ffhq:
+    id: "ffhq"
+    name: "Flickr-Faces-HQ (FFHQ)"
+    path: "./data/raw/ffhq"
+  voxceleb2:
+    id: "voxceleb2"
+    name: "VoxCeleb2"
+    path: "./data/raw/voxceleb2"
